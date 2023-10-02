@@ -1,0 +1,35 @@
+name: Deploy With Kamal
+
+on:
+  push:
+    branches:
+      - main  # Replace with your default branch if not 'main'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup SSH Key for DigitalOcean
+      run: |
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.DIGITALOCEAN_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan 159.65.88.129 >> ~/.ssh/known_hosts 
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0'  
+
+    - name: Install Kamal gem
+      run: gem install kamal
+
+    - name: Setup Kamal
+      run: kamal setup
+
+    - name: Deploy with Kamal
+      run: kamal deploy
