@@ -6,7 +6,7 @@ image: hayatu89/kamal-io
 
 # Deploy to these servers.
 servers:
-  - 165.232.32.82
+  - 159.65.88.129
 
 # Credentials for your image host.
 registry:
