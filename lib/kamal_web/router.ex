@@ -1,4 +1,5 @@
 defmodule KamalWeb.Router do
+  alias KamalWeb.PageController
   use KamalWeb, :router
 
   pipeline :browser do
@@ -18,6 +19,7 @@ defmodule KamalWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/up", PageController, :healthcheck
     live "/payments", PaymentLive.Index, :index
     live "/payments/new", PaymentLive.Index, :new
     live "/payments/:id/edit", PaymentLive.Index, :edit

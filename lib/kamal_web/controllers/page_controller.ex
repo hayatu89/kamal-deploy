@@ -6,4 +6,8 @@ defmodule KamalWeb.PageController do
     # so skip the default app layout.
     render(conn, :home, layout: false)
   end
+
+  def healthcheck(conn, _params) do
+    render(conn, "OK")
+  end
 end

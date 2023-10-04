@@ -31,7 +31,11 @@ if config_env() == :prod do
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
   config :kamal, Kamal.Repo,
-    # ssl: true,
+    ssl: true,
+    ssl_opts: [
+      cacertfile: "ca-certificate.crt",
+      verify: :verify_peer
+    ],
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     socket_options: maybe_ipv6
@@ -48,20 +52,19 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
-  port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :kamal, KamalWeb.Endpoint,
-    url: [host: host, port: 443, scheme: "https"],
+  http: [:inet6, port: String.to_integer(System.get_env("PORT") || "3000")],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
       # See the documentation on https://hexdocs.pm/plug_cowboy/Plug.Cowboy.html
       # for details about using IPv6 vs IPv4 and loopback vs public addresses.
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: port
+      port:  String.to_integer(System.get_env("PORT") || "3000")
     ],
-    secret_key_base: secret_key_base
+    secret_key_base: secret_key_base,
+    check_origin: ["http://159.65.88.129"]
 
   # ## SSL Support
   #

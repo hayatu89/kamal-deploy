@@ -86,7 +86,9 @@ ENV MIX_ENV="prod"
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/kamal ./
 
+COPY --chown=nobody:root ca-certificate.crt /app/bin/ca-certificate.crt
+
 USER nobody
 
 EXPOSE 3000
-CMD ["/app/bin/server"]
+CMD ["sh", "-c", "/app/bin/migrate && /app/bin/server"]
