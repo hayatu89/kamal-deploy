@@ -36,7 +36,7 @@ builder:
   args:
     RUBY_VERSION: 3.2.0
   secrets:
-    - GITHUB_TOKEN
+    - TOKEN
   remote:
     arch: amd64
     host: ssh://root@159.65.88.129
